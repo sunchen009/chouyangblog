@@ -1,0 +1,136 @@
+<html xmlns="http://www.w3.org/1999/xhtml"  >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+		<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/docs.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/box.css" />
+		<script type="text/javascript" src="../static/assets/js/bootstrap.js"></script> 
+		<style type="text/css">
+  				
+        </style>
+  		<title>{{article.title}}</title>
+	</head>
+	<body>
+		
+			<div id= "header">
+				<div class="navbar navbar-fixed-top navbar-inverse">
+				  <div class="navbar-inner">
+				    <a class="brand" href="#"> 悦读工具</a>
+				    <ul class="nav">
+				      <li class="active"><a href="/">首页</a></li>
+				      <li><a href="#">分类</a></li>
+				      <li><a href="#">链接</a></li>
+				    </ul>
+				   <form class="navbar-form pull-right">
+					  <input type="text" class="span2">
+					  <button type="submit" class="btn">Submit</button>
+					</form>
+				  </div>
+				</div>
+			</div>
+			<div class="container-fluid">
+			  <div class="row-fluid">
+			    <div class="span8">
+			      <!-- content-->
+
+			      <div class="well well-large">
+			      		<h2>{{article.title}}</h2>
+			      		<table class="table">
+						  <tbody>
+						    <tr>
+						      <td style="font-size:12px">发布时间:{{article.posttime}}</td>										
+						    </tr>
+						     <tr>
+						      <td></td>						
+						    </tr>
+						  </tbody>
+
+					   </table>
+					   <p class="BSHARE_TEXT">
+					  		{{article.content}}
+					   </p>
+					   <div id="sns">
+					   				<!-- JiaThis Button BEGIN -->
+									<div class="jiathis_style">
+									<span class="jiathis_txt">分享到：</span>
+									<a class="jiathis_button_renren">人人网</a>
+									<a class="jiathis_button_tsina">新浪微博</a>
+									<a class="jiathis_button_twitter">Twitter</a>
+									<a class="jiathis_button_googleplus">Google+</a>
+									<a class="jiathis_button_fb">Facebook</a>
+
+									<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+									<a class="jiathis_counter_style"></a>
+									</div>
+									<script type="text/javascript" >
+									var jiathis_config={
+										summary:"{{article.content}}",
+										hideMore:false
+									}
+									</script>
+									<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+									<!-- JiaThis Button END -->
+
+					   	</div>
+					</div>
+			    </div>
+			    <!--sidebar-->
+			    <div class="span4  well">
+
+			       <div id="comments">
+			       	<div class="hero-unit">
+					  <h1>欢迎评论</h1>
+					  <p>欢迎留下您的宝贵意见</p>
+					  <p>
+					    <a class="btn btn-primary btn-large" data-toggle="modal" href="#comment-Modal">
+					      发表评论
+					    </a> 
+					    <form method="post" class="modal hide fade well" id="comment-Modal" style="display:none">
+							   
+								  <div class="modal-header">
+								    <a class="close" data-dismiss="modal">×</a>
+								    <h3>您正在评论</h3>
+								  </div>								 
+								  <div class="modal-body ">								    
+									  	  <table class="table ">								
+											  <tbody>											  
+												    <tr><td> <input name="comment_username" type="text" class="span6" placeholder="请留下您的姓名"></td> </tr>
+												    <tr><td> <input name="comment_email" type="text" class="span6" placeholder="请留下您的e-mail"></td> </tr>
+												    <tr><td>  <textarea name="comment_content" class="input-xlarge span12" rows="10" name="content" ></textarea>									  					</td> </tr> 
+											  </tbody> 
+											</table>
+						  			</div>
+								  <div class="modal-footer">
+								    <a href="#" class="btn" data-dismiss="modal">关闭</a>
+								   <button type="submit" class="btn btn-primary">提交评论</button>
+								  </div>								
+						</form>	
+					  </p>
+					</div>
+					<div class="alert alert-info">
+ 						 <strong>当前评论：</strong>
+					</div>
+
+			       	<ul class="unstyled">
+			       		{% for i in comments%}
+			       		<li>
+			       			<div class="alert alert-success">
+							  <strong>{{i.username}}:</strong>{{i.content}}
+							</div>
+			       		</li>
+			       		{% endfor %}
+			       		
+			       	</ul>	
+			       </div>
+			    </div>
+			  </div>
+			</div>
+
+	</body>
+	<script src="../static/assets/js/jquery.js"></script>
+	<script src="../static/assets/bootstrap-transition.js"></script> 		
+	<script src="../static/assets/js/bootstrap-modal.js"></script> 
+</html>
+
+

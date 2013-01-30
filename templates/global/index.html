@@ -1,0 +1,132 @@
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:wb=“http://open.weibo.com/wb”>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+		<link rel="stylesheet" type="text/css" href="../static/assets/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="../static/assets/css/docs.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/box.css" />
+		<script type="text/javascript" src="../static/assets/js/bootstrap.js"></script> 
+		<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+  				
+        </style>
+  		<title>臭氧盒子</title>
+	</head>
+
+	<body >	
+			<div class="container-fluid">
+			  <div class="row-fluid">
+			    <div class="span3  " id="side-left ">
+			      <!--Sidebar content-->
+			       <div class="row-fluid ">
+			       		<div class="span12 ">
+			       			<img src="static/img/logo.png">
+			       			<table class="span12">
+			       				<tr>
+			       					<td ><h1>臭氧盒子</h1></td>
+			       					<td ><wb:follow-button uid="2811039744" type="gray_2" width="136" height="24" ></wb:follow-button></td>
+			       				</tr>
+			       			</table>
+			       			
+			       			
+			       		</div>
+			       </div>
+			       <!--nav -->
+			       <div id="nav-bar">
+			       		<div class="navbar ">
+  							<div class="navbar-inner">
+    							<div class="container ">
+    								<a class="brand" href="#">BOX</a>
+      									<ul class="nav">
+  											<li class="active">
+  												<a href="#">关于我</a>
+												 
+											</li>
+											
+										  
+										  	
+										</ul>
+    						    </div>
+  						   	</div>
+					 	</div>
+			       </div>
+			       <div class="bs-docs-sidebar well">
+						<div id="about_me" class="">
+							这里是一段介绍文字
+						</div>
+			       </div>
+			    </div>
+
+			    <div class="span9" id="content-right">
+			    	<div class="row-fluid">
+			    		<div class="span12">
+			    			<div class="navbar .navbar-inverse" >
+  								<div class="navbar-inner">
+    								<div class="container">
+      									<a class="brand" href="#">导读工具</a>
+      									<ul class="nav">
+										  <li class="active">
+										    <a href="#">首页</a>
+										  </li>
+										  <li><a href="#">过滤器</a></li>
+										  
+										</ul>
+										<form class="navbar-search pull-right">
+										  <input type="text" class="search-query" placeholder="查看盒子">
+
+										</form>
+    								</div>
+
+ 								 </div>
+							</div>
+			    		</div>
+			    	</div>
+			    	<div class="row-fluid" >
+			    		<div class="artical-list span12">
+			    			 {% for article in article_list %}
+							   <div class="artical well">
+					   			<div class="artical-header">
+					   				<a href="/article/{{article.aid}}">{{article.title}}</a>
+					   			</div>
+					   			<div class="artical-main">
+					   				<p>
+					   					{{article.content}}
+					   				</p>
+					   			</div>
+					   			<div id="sns">
+					   				<!-- JiaThis Button BEGIN -->
+									<div class="jiathis_style">
+									<span class="jiathis_txt">分享到：</span>
+									<a class="jiathis_button_renren">人人网</a>
+									<a class="jiathis_button_tsina">新浪微博</a>
+									<a class="jiathis_button_twitter">Twitter</a>
+									<a class="jiathis_button_googleplus">Google+</a>
+									<a class="jiathis_button_fb">Facebook</a>
+
+									<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+									<a class="jiathis_counter_style"></a>
+									</div>
+									<script type="text/javascript" >
+									var jiathis_config={
+										summary:"{{article.content}}",
+										hideMore:false
+									}
+									</script>
+									<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+									<!-- JiaThis Button END -->
+
+					   			</div>
+				   			   </div> 
+							  {% endfor %}
+			    			
+				   		
+			    		</div>
+			    	</div>
+				   </div>				      
+			    </div>
+			  </div>
+			</div>	
+			
+			
+	</body>
+</html>

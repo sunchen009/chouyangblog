@@ -1,0 +1,89 @@
+<html xmlns="http://www.w3.org/1999/xhtml"  >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+		<link rel="stylesheet" type="text/css" href="../static/assets/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="../static/assets/css/docs.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/box.css" />
+		<script type="text/javascript" src="../static/ckeditor/ckeditor.js"></script>
+		<script type="text/javascript" src="../static/assets/js/bootstrap.js"></script> 
+		<script>
+              window.onload = function()
+			    {
+			        CKEDITOR.replace( 'content' );
+			    };
+        </script>
+  		<title>臭氧盒子管理页面</title>
+	</head>
+	<body>
+		
+			<div id= "header">
+				<div class="navbar navbar-fixed-top navbar-inverse">
+				  <div class="navbar-inner">
+				    <a class="brand" href="#"> 管理工具</a>
+				    <ul class="nav">
+				      <li class="active"><a href="/">首页</a></li>
+				      <li><a href="/add">写文章</a></li>
+				      <li><a href="#">链接</a></li>
+				    </ul>
+				   <form class="navbar-form pull-right">
+					  <input type="text" class="span2">
+					  <button type="submit" class="btn">Submit</button>
+					</form>
+				  </div>
+				</div>
+			</div>
+			<div class="container-fluid">
+			  <div class="row-fluid">
+			  	<div class="span8 well">
+			  		<form  method="post">					 		
+					    <input type="text" class="span8" name="title" placeholder="文章标题">		     
+			            <textarea class="input-xlarge" row="15" name="content" ></textarea>			          
+			          <div class="form-actions">
+			            <button type="submit" class="btn btn-primary">快速发布</button>			            
+			          </div>
+					 
+					</form>
+			  	</div>
+			    <div class="span4 well">
+			      <table class="table">
+					  <thead>
+					    <tr>
+					      <th>标题</th>
+					      <th>发布时间</th>
+					      <th>操作</th>
+					      
+					    </tr>
+					  </thead>
+					  <tbody>
+					  	{% for item in items %}
+						    <tr>
+						      <td><a href="/article/{{item.aid}}">{{item.title}}</a></td>
+						      <td>{{item.posttime}}</td>
+						      <td>
+						      	<div class="btn-group">
+								  <a href="/edit/{{item.aid}}" class="btn btn-success">编辑</a>
+								  <a href="/delete/{{item.aid}}" class="btn btn-danger">删除</a>
+								  <a class="btn btn-warning">下架</a>
+								</div>
+							</td>
+						     
+					    {% endfor %}
+					  </tbody>
+				</table>
+			      	
+			      	
+			      	
+			      
+			    
+				</div>
+			   </div>
+			    
+			   
+			  </div>
+			</div>
+
+	</body>
+</html>
+
+
