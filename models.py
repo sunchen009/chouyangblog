@@ -13,7 +13,7 @@ class Article(Base):
 	__tablename__ = 'articles'
 	
 	aid          	= Column(Integer ,primary_key = True)
-	title       	= Column(String(20))
+	title       	= Column(String(100))
 	content			= Column(Text)
 	posttime		= Column(DateTime)
 	classid		 	= Column(Integer)

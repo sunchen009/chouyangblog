@@ -2,10 +2,10 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-		<link rel="stylesheet" type="text/css" href="../static/assets/css/bootstrap.css" />
-		<link rel="stylesheet" type="text/css" href="../static/assets/css/docs.css" />
-		<link rel="stylesheet" type="text/css" href="../static/css/box.css" />
-		<script type="text/javascript" src="../static/assets/js/bootstrap.js"></script> 
+		<link rel="stylesheet" type="text/css" href="/static/assets/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="/static/assets/css/docs.css" />
+		<link rel="stylesheet" type="text/css" href="/static/css/box.css" />
+		<script type="text/javascript" src="/static/assets/js/bootstrap.js"></script> 
 		<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
 		<style type="text/css">
   				
@@ -20,7 +20,7 @@
 			      <!--Sidebar content-->
 			       <div class="row-fluid ">
 			       		<div class="span12 ">
-			       			<img src="static/img/logo.png">
+			       			<img src="/static/img/logo.png">
 			       			<table class="span12">
 			       				<tr>
 			       					<td ><h1>臭氧盒子</h1></td>
@@ -52,7 +52,11 @@
 			       </div>
 			       <div class="bs-docs-sidebar well">
 						<div id="about_me" class="">
-							这里是一段介绍文字
+							<p>大家好，我是孙如镇。一个计算机和互联网技术的爱好者。我在执着的追求着自己用技术改变世界的梦想。
+							</p>
+							<p>联系方式：</p>
+							<p>邮箱：sunchen009@gmail.com</p>
+
 						</div>
 			       </div>
 			    </div>
@@ -66,9 +70,20 @@
       									<a class="brand" href="#">导读工具</a>
       									<ul class="nav">
 										  <li class="active">
-										    <a href="#">首页</a>
+										    <a href="/">首页</a>
 										  </li>
-										  <li><a href="#">过滤器</a></li>
+										  <li class="dropdown" id="menutest1">
+												<a class="dropdown-toggle" data-toggle="dropdown" href="#menutest1">
+											      分类过滤
+											      <b class="caret"></b>
+											    </a>
+											    <ul class="dropdown-menu">
+											    	{% for i in classes %}
+											      <li><a href="/index/{{i.classid}}/1">{{i.classname}}</a></li>
+													{% endfor %}
+											    </ul>
+
+										  </li>
 										  
 										</ul>
 										<form class="navbar-search pull-right">
@@ -94,39 +109,71 @@
 					   				</p>
 					   			</div>
 					   			<div id="sns">
-					   				<!-- JiaThis Button BEGIN -->
-									<div class="jiathis_style">
-									<span class="jiathis_txt">分享到：</span>
-									<a class="jiathis_button_renren">人人网</a>
-									<a class="jiathis_button_tsina">新浪微博</a>
-									<a class="jiathis_button_twitter">Twitter</a>
-									<a class="jiathis_button_googleplus">Google+</a>
-									<a class="jiathis_button_fb">Facebook</a>
-
-									<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
-									<a class="jiathis_counter_style"></a>
-									</div>
-									<script type="text/javascript" >
-									var jiathis_config={
-										summary:"{{article.content}}",
-										hideMore:false
-									}
-									</script>
-									<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
-									<!-- JiaThis Button END -->
+					   				<div class="bshare-custom"><div class="bsPromo bsPromo2"></div><a title="分享到" href="http://www.bShare.cn/" id="bshare-shareto" class="bshare-more">分享到</a><a title="分享到新浪微博" class="bshare-sinaminiblog">新浪微博</a><a title="分享到豆瓣" class="bshare-douban" href="javascript:void(0);">豆瓣</a><a title="分享到人人网" class="bshare-renren">人人网</a><a title="分享到Facebook" class="bshare-facebook" href="javascript:void(0);">Facebook</a><a title="分享到Twitter" class="bshare-twitter" href="javascript:void(0);">Twitter</a><a title="分享到Google+" class="bshare-gplus" href="javascript:void(0);">Google+</a><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a><span style="float: none;" class="BSHARE_COUNT bshare-share-count">13K</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+					   				<script type="text/javascript" charset="utf-8">
+									bShare.addEntry({
+									    title: "来自臭氧盒子的精彩技术文章",									
+									    summary: "臭氧盒子，孙如镇的技术BLOG，记录学习与实践中的点点滴滴",
+									    
+									});
+									</script> 
 
 					   			</div>
 				   			   </div> 
-							  {% endfor %}
-			    			
-				   		
+							  {% endfor %}			    						   		
 			    		</div>
+			    		<div class="pagination pagination-centered span12">
+			    		 
+						  <ul>
+						    
+						    {%if page == 1 %}						    	
+						    <li class="disabled"><a href="#" >前一页</a></li>
+						    {%endif %}
+						    {% if page != 1%}
+						    <li><a href="/page/{{page-1}}" >前一页</a></li>						    	
+						    {% endif%}
+						   	
+						    {%  for i in range(page_count)  %}	
+							    {%if i == page-1 %}				  
+							    <li class="active"><a href="/page/{{i+1}}">{{i+1}}</a></li>
+							    {%endif%}
+							    {%if i != page-1 %}				  
+							    <li ><a href="/page/{{i+1}}">{{i+1}}</a></li>
+							    {%endif%}
+						    {%  endfor  %}						  
+						    {%if page== page_count %}
+						    <li class="disabled"><a href="#" >后一页</a></li>
+						    {%endif %}
+						    {% if page != page_count%}
+						    <li><a href="/page/{{page+1}}" >后一页</a></li>
+						    {% endif%}	
+						  
+						    
+						    <li><a href="#">共{{page_count}}页</a></li>					
+						  </ul>
+						  
+						</div>
 			    	</div>
 				   </div>				      
 			    </div>
 			  </div>
 			</div>	
+		<hr>
+		<div class="span12">
+			<div class="span6">
+				<p>本站采用web.py编写，运行于SAE云公共主机上</p>
+				<img src="/static/img/sae.png">
+			</div>
+			<div>
+				<p>友情链接：<a style="margin-left:3px" href="http://sae.sina.com.cn">新浪SAE</a><a  style="margin-left:3px"  href="http://www.cauc.edu.cn">中国民航大学</a></p>
+				<p>版权所有 © 2013-2014 ---臭氧盒子</p>
+			</div>
 			
-			
+		</div>	
+		<script src="http://s22.cnzz.com/stat.php?id=5002219&web_id=5002219&show=pic1" language="JavaScript"></script>
+	
 	</body>
+	<script src="/static/assets/js/jquery.js"></script>
+	<script src="/static/assets/js/bootstrap-dropdown.js"></script>
+
 </html>

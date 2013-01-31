@@ -14,20 +14,37 @@ from settings import global_render , admin_render
 from settings import load_sqla ,store
 from web import form
 from models	import Article , Comment , Classes , Admins
-
+from tools import Pager
 
 
 class Index(object):
 	def GET(self):
-		article_list = web.ctx.orm.query(Article).order_by( Article.posttime.desc()).all()
-		return global_render.index(article_list=article_list)
+		article_list =  web.ctx.orm.query(Article).order_by(Article.posttime.desc()).all()		
+		content_classes = web.ctx.orm.query(Classes).all()
+		article_list, page_count = Pager(article_list,1)
+		return global_render.index(article_list=article_list,classes = content_classes,page_count=page_count,page=1)
 	
+class ClassIndex(object):
+	def GET(self,classid,pageid):
+		article_list = web.ctx.orm.query(Article).filter_by(classid=int(classid)).order_by( Article.posttime.desc()).all()
+		content_classes = web.ctx.orm.query(Classes).all()
+		article_list , page_count = Pager(article_list,int(pageid))
+		return global_render.index(article_list=article_list,classes = content_classes,page_count=page_count,page=int(pageid))
+
+class Page(object):
+	def GET(self,id):
+		article_list = web.ctx.orm.query(Article).order_by( Article.posttime.desc()).all()
+		content_classes = web.ctx.orm.query(Classes).all()
+		article_list , page_count = Pager(article_list,int(id))
+		return global_render.index(article_list=article_list,classes = content_classes,page_count=page_count,page=int(id))
+
 
 class Content(object):
 	def GET(self,id):
 		article=web.ctx.orm.query(Article).filter_by(aid=int(id)).all()[0]
+		content_classes = web.ctx.orm.query(Classes).all()
 		comments = web.ctx.orm.query(Comment).filter_by(aid=int(id)).all()
-		return global_render.content(comments=comments,article=article)
+		return global_render.content(comments=comments,classes=content_classes,article=article)
 	def POST(self,id):
 		i=web.input()
 		article=web.ctx.orm.query(Article).filter_by(aid=int(id)).all()[0]
@@ -40,13 +57,14 @@ class Content(object):
 		comment.content  = i.comment_content
 		web.ctx.orm.add(comment)
 		web.ctx.orm.commit()
-		raise web.seeother('/')
+		raise web.seeother('/article/int(id)')
 	
 class Add_article(object):
 	def GET(self):
 		if session.loggin == True:		
 			article = Article()
-			return admin_render.edit(article=article)	
+			content_classes = web.ctx.orm.query(Classes).all()
+			return admin_render.edit(article=article,classes=content_classes)	
 		else:
 			raise web.seeother('/login')
 	def POST(self):
@@ -55,7 +73,10 @@ class Add_article(object):
 			a = Article()
 			a.title = i.title
 			a.content = i.content
-			a.posttime =  datetime.datetime.now()  
+			a.classid = i.classid
+			a.posttime =  datetime.datetime.now()
+			a.commentnumber = 0
+			a.pv = 0  
 			web.ctx.orm.add(a)
 			raise web.seeother('/')
 		else:
@@ -66,7 +87,8 @@ class Edit_article(object):
 	def GET(self,id):
 		if session.loggin == True:		
 			article=web.ctx.orm.query(Article).filter_by(aid=int(id)).all()[0]
-			return admin_render.edit(article=article)	
+			content_classes = web.ctx.orm.query(Classes).all()
+			return admin_render.edit(article=article,classes=content_classes)	
 		else:
 			raise web.seeother('/login')
 		
@@ -76,6 +98,7 @@ class Edit_article(object):
 			a = web.ctx.orm.query(Article).filter_by(aid=int(id)).all()[0]
 			a.title = i.title
 			a.content = i.content
+			a.classid = i.classid
 			a.posttime =  datetime.datetime.now() 
 			web.ctx.orm.commit()
 			raise web.seeother('/manage')
@@ -87,7 +110,10 @@ class Delete_article(object):
 	def GET(self,id):
 		if session.loggin == True:
 			a = web.ctx.orm.query(Article).filter_by(aid=int(id)).all()[0]
+			b = web.ctx.orm.query(Comment).filter_by(aid=int(id)).all()
 			web.ctx.orm.delete(a)
+			for i in b:
+				web.ctx.orm.delete(b)
 			raise web.seeother('/manage')	
 		else:
 			raise web.seeother('/login')
@@ -96,7 +122,8 @@ class Manage(object):
 	def GET(self):
 		if session.loggin == True:		
 			article_list = web.ctx.orm.query(Article).order_by( Article.posttime.desc()).all()
-			return admin_render.manage(items=article_list)
+			content_classes = web.ctx.orm.query(Classes).all()
+			return admin_render.manage(items=article_list,classes=content_classes)
 		else:
 			raise web.seeother('/login')
 
@@ -107,10 +134,27 @@ class Manage(object):
 			a.title = i.title
 			a.content = i.content
 			a.posttime =  datetime.datetime.now()  
+			a.classid = i.classid
 			web.ctx.orm.add(a)
+			a.commentnumber = 0
+			a.pv = 0 
 			raise web.seeother('/manage')
 		else:
 			raise web.seeother('/login')
+		
+class ClassesTool(object):
+	"""docstring for Classes"""
+	def POST(self):
+		if session.loggin == True:	
+			i= web.input()
+			classname = i.newclassname
+			newclass = Classes()
+			newclass.classname = classname
+			web.ctx.orm.add(newclass)
+			raise web.seeother("/manage")
+		else:
+			raise web.seeother('/login')
+
 		
 	
 class Login(object):
@@ -131,6 +175,10 @@ class Login(object):
 
 
 
+
+
+
+
 def notfound():
     return  web.notfound(global_render.page404())
 
@@ -140,8 +188,8 @@ def internalerror():
 
 app = web.application(urls, globals())
 app.add_processor(load_sqla)
-#app.notfound = notfound
-#app.internalerror = internalerror
+app.notfound = notfound
+app.internalerror = internalerror
 
 
 #use session in debug modal
@@ -153,7 +201,7 @@ else:
 
 application = sae.create_wsgi_app(app.wsgifunc())
 
-web.config.debug = True
+web.config.debug = False
 
 
 

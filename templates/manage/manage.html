@@ -2,11 +2,11 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-		<link rel="stylesheet" type="text/css" href="../static/assets/css/bootstrap.css" />
-		<link rel="stylesheet" type="text/css" href="../static/assets/css/docs.css" />
-		<link rel="stylesheet" type="text/css" href="../static/css/box.css" />
-		<script type="text/javascript" src="../static/ckeditor/ckeditor.js"></script>
-		<script type="text/javascript" src="../static/assets/js/bootstrap.js"></script> 
+		<link rel="stylesheet" type="text/css" href="/static/assets/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="/static/assets/css/docs.css" />
+		<link rel="stylesheet" type="text/css" href="/static/css/box.css" />
+		<script type="text/javascript" src="/static/ckeditor/ckeditor.js"></script>
+		<script type="text/javascript" src="/static/assets/js/bootstrap.js"></script> 
 		<script>
               window.onload = function()
 			    {
@@ -33,56 +33,124 @@
 				  </div>
 				</div>
 			</div>
-			<div class="container-fluid">
-			  <div class="row-fluid">
-			  	<div class="span8 well">
-			  		<form  method="post">					 		
-					    <input type="text" class="span8" name="title" placeholder="文章标题">		     
-			            <textarea class="input-xlarge" row="15" name="content" ></textarea>			          
-			          <div class="form-actions">
-			            <button type="submit" class="btn btn-primary">快速发布</button>			            
-			          </div>
-					 
-					</form>
-			  	</div>
-			    <div class="span4 well">
-			      <table class="table">
-					  <thead>
-					    <tr>
-					      <th>标题</th>
-					      <th>发布时间</th>
-					      <th>操作</th>
-					      
-					    </tr>
-					  </thead>
-					  <tbody>
-					  	{% for item in items %}
-						    <tr>
-						      <td><a href="/article/{{item.aid}}">{{item.title}}</a></td>
-						      <td>{{item.posttime}}</td>
-						      <td>
-						      	<div class="btn-group">
-								  <a href="/edit/{{item.aid}}" class="btn btn-success">编辑</a>
-								  <a href="/delete/{{item.aid}}" class="btn btn-danger">删除</a>
-								  <a class="btn btn-warning">下架</a>
-								</div>
-							</td>
-						     
-					    {% endfor %}
-					  </tbody>
-				</table>
-			      	
-			      	
-			      	
-			      
-			    
-				</div>
-			   </div>
-			    
-			   
-			  </div>
+			<div class="accordion" id="accordion1">
+	            <div class="accordion-group">
+	              <div class="accordion-heading">
+	                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#newblog">
+	                  新增文章
+	                </a>
+	              </div>
+	              <div id="newblog" class="accordion-body collapse" style="height: 0px;">
+	                <div class="accordion-inner">
+			  			<div class="span12 well">
+				  		<form   method="post">					 		
+						    <input type="text" class="span6" name="title" placeholder="文章标题">
+						    <select name="classid" class="span4"id="select01">
+						    	{%for i in classes%}
+				                <option value="{{i.classid}}">{{i.classname}}</option>
+				                {%endfor %}
+				              </select>		     
+				            <textarea class="input-xlarge " row="15" name="content" ></textarea>			          
+				          <div class="form-actions">
+				            <button type="submit" class="btn btn-primary">快速发布</button>			            
+				          </div>
+						 
+						</form>
+				  		</div>
+	                </div>
+	              </div>
+	            </div>
+            </div>
+          	<div class="accordion" id="accordion2">
+	            <div class="accordion-group">
+	              <div class="accordion-heading">
+	                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#bloglist">
+	                  博文列表
+	                </a>
+	              </div>
+	              <div id="bloglist" class="accordion-body collapse" style="height: 0px;">
+	                <div class="accordion-inner">
+			  			 <div class="span8 well">
+					       <table class="table">
+							  <thead>
+							    <tr>
+							      <th>标题</th>
+							      <th>发布时间</th>
+							      <th>操作</th>
+							      
+							    </tr>
+							  </thead>
+							  <tbody>
+							  	{% for item in items %}
+								    <tr>
+								      <td><a href="/article/{{item.aid}}">{{item.title}}</a></td>
+								      <td>{{item.posttime}}</td>
+								      <td>
+								      	<div class="btn-group">
+										  <a href="/edit/{{item.aid}}" class="btn btn-success">编辑</a>
+										  <a href="/delete/{{item.aid}}" class="btn btn-danger">删除</a>
+										  <a class="btn btn-warning">下架</a>
+										</div>
+									</td>
+								     
+							    {% endfor %}
+							  </tbody>
+							</table>
+						</div>
+	                </div>
+	              </div>
+	            </div>
+            </div>
+            <div class="accordion" id="accordion3">
+	            <div class="accordion-group">
+	              <div class="accordion-heading">
+	                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#classmanage">
+	                  分类管理
+	                </a>
+	              </div>
+	              <div id="classmanage" class="accordion-body collapse" style="height: 0px;">
+		                <form class="well form-inline" method="post" action="/addclass">
+						  <input name="newclassname" type="text" class="input-xlarge sapn5" placeholder="输入新的分类">						
+						  <button type="submit" class="btn">添加分类</button>
+						  <table class="table">
+							  <thead>
+							    <tr>
+							      <th>分类名</th>						
+							      <th>操作</th>							      
+							    </tr>
+							  </thead>
+							  <tbody>
+							  	{% for i in classes %}
+								    <tr>
+								      <td><a href="#">{{i.classname}}</a></td>
+								      <td>
+								      	<div class="btn-group">
+										  <a href="#" class="btn btn-success">编辑</a>
+										  <a href="#" class="btn btn-danger">删除</a>
+										</div>
+									</td>
+								     
+							    {% endfor %}
+							  </tbody>
+							</table>
+						</form>
+	              </div>
+	            </div>
+            </div>
+			<div class="span12">
+			<div class="span6">
+				<p>本站采用web.py编写，运行于SAE云公共主机上</p>
+				<img src="/static/img/sae.png">
 			</div>
-
+			<div>
+				<p>友情链接：<a style="margin-left:3px" href="http://sae.sina.com.cn">新浪SAE</a><a  style="margin-left:3px"  href="http://www.cauc.edu.cn">中国民航大学</a></p>
+				<p>版权所有 © 2013-2014 ---臭氧盒子 </p>
+			</div>
+			
+		</div>	
+			<script src="/static/assets/js/jquery.js"></script>
+			<script type="text/javascript" src="/static/assets/js/bootstrap-collapse.js"></script> 
+			
 	</body>
 </html>
 
