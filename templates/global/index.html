@@ -1,7 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"  xmlns:wb=“http://open.weibo.com/wb”>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
+		<meta name="keywords" content="blog,python,webpy,臭氧盒子,web开发,sae,SAE">
+		<meta name="description" content="SEA开发,webpy,blog,python">
 		<link rel="stylesheet" type="text/css" href="/static/assets/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="/static/assets/css/docs.css" />
 		<link rel="stylesheet" type="text/css" href="/static/css/box.css" />
@@ -101,12 +102,17 @@
 			    			 {% for article in article_list %}
 							   <div class="artical well">
 					   			<div class="artical-header">
-					   				<a href="/article/{{article.aid}}">{{article.title}}</a>
+					   				<h5 >{{article.title}}</h5>
 					   			</div>
+					   			<div><div class="span3">发表时间:{{article.posttime}}</div>
+					   			<div class="span9">所属分类 :{{article.classname}}</div></div>
+					   			
+					   			
 					   			<div class="artical-main">
 					   				<p>
-					   					{{article.content}}
+					   					{{article.summary}}
 					   				</p>
+					   				<a class="span2 offset10" href="/article/{{article.aid}}">阅读更多..</a>
 					   			</div>
 					   			<div id="sns">
 					   				<div class="bshare-custom"><div class="bsPromo bsPromo2"></div><a title="分享到" href="http://www.bShare.cn/" id="bshare-shareto" class="bshare-more">分享到</a><a title="分享到新浪微博" class="bshare-sinaminiblog">新浪微博</a><a title="分享到豆瓣" class="bshare-douban" href="javascript:void(0);">豆瓣</a><a title="分享到人人网" class="bshare-renren">人人网</a><a title="分享到Facebook" class="bshare-facebook" href="javascript:void(0);">Facebook</a><a title="分享到Twitter" class="bshare-twitter" href="javascript:void(0);">Twitter</a><a title="分享到Google+" class="bshare-gplus" href="javascript:void(0);">Google+</a><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a><span style="float: none;" class="BSHARE_COUNT bshare-share-count">13K</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>

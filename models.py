@@ -17,9 +17,11 @@ class Article(Base):
 	content			= Column(Text)
 	posttime		= Column(DateTime)
 	classid		 	= Column(Integer)
+	classname		= Column(String(20))
 	pv				= Column(Integer)
 	tags		 	= Column(String(50))
 	commentnumber 	= Column(Integer)
+	summary			= Column(Text)
 
 #	def __init__(self,title,content):
 #		self.title = title

@@ -14,7 +14,7 @@ from settings import global_render , admin_render
 from settings import load_sqla ,store
 from web import form
 from models	import Article , Comment , Classes , Admins
-from tools import Pager
+from tools import Pager,GetSummary
 
 
 class Index(object):
@@ -73,7 +73,9 @@ class Add_article(object):
 			a = Article()
 			a.title = i.title
 			a.content = i.content
+			a.summary = GetSummary(i.content)
 			a.classid = i.classid
+			a.classname = web.ctx.orm.query(Classes).filter_by(classid=int(i.classid)).all()[0].classname
 			a.posttime =  datetime.datetime.now()
 			a.commentnumber = 0
 			a.pv = 0  
@@ -98,7 +100,9 @@ class Edit_article(object):
 			a = web.ctx.orm.query(Article).filter_by(aid=int(id)).all()[0]
 			a.title = i.title
 			a.content = i.content
+			a.summary = GetSummary(i.content)
 			a.classid = i.classid
+			a.classname = web.ctx.orm.query(Classes).filter_by(classid=int(i.classid)).all()[0].classname
 			a.posttime =  datetime.datetime.now() 
 			web.ctx.orm.commit()
 			raise web.seeother('/manage')
@@ -133,6 +137,7 @@ class Manage(object):
 			a = Article()
 			a.title = i.title
 			a.content = i.content
+			a.summary = GetSummary(i.content)
 			a.posttime =  datetime.datetime.now()  
 			a.classid = i.classid
 			web.ctx.orm.add(a)
@@ -188,8 +193,8 @@ def internalerror():
 
 app = web.application(urls, globals())
 app.add_processor(load_sqla)
-app.notfound = notfound
-app.internalerror = internalerror
+#app.notfound = notfound
+#app.internalerror = internalerror
 
 
 #use session in debug modal
@@ -201,7 +206,7 @@ else:
 
 application = sae.create_wsgi_app(app.wsgifunc())
 
-web.config.debug = False
+web.config.debug = True
 
 
 
