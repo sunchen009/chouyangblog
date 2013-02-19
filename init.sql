@@ -33,3 +33,10 @@ CREATE TABLE  `app_chouyangbox`.`admins` (
 `userpass` VARCHAR( 100 ) NOT NULL ,
 PRIMARY KEY (  `uid` )
 ) ;
+
+
+CREATE TABLE  sessions ( 
+session_id char(128) UNIQUE NOT NULL, 
+atime timestamp NOT NULL default current_timestamp, 
+data text 
+); 
