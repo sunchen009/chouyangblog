@@ -7,6 +7,8 @@ CREATE TABLE articles(
 	posttime		DATETIME	,
 	classid			INT			,
 	tags			VARCHAR(50)	,
+	classname		VARCHAR(50)	,
+	summary			VARCHAR(50)	,
 	pv				INT			,
 	commentnumber 	INT			);
 
