@@ -57,7 +57,7 @@ class Content(object):
 		comment.content  = i.comment_content
 		web.ctx.orm.add(comment)
 		web.ctx.orm.commit()
-		raise web.seeother('/article/int(id)')
+		raise web.seeother('/article/'+id)
 	
 class Add_article(object):
 	def GET(self):
